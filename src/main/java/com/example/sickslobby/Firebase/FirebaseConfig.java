@@ -12,8 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
@@ -23,50 +24,32 @@ public class FirebaseConfig {
 
     @Bean
     public Firestore firebaseAppInitializer() { // Removí 'throws IOException' para manejarla aquí
-        InputStream serviceAccount = null;
+
         try {
-            // Intenta cargar el archivo de credenciales
-            ClassPathResource resource = new ClassPathResource("firebase/serviceAccountKey.json");
-            if (!resource.exists()) {
-                logger.error("¡ERROR FATAL! El archivo serviceAccountKey.json NO fue encontrado en src/main/resources. " +
-                        "Por favor, verifica la ruta y el nombre.");
-                throw new IOException("serviceAccountKey.json not found!");
-            }
-            serviceAccount = resource.getInputStream();
+
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase/serviceAccountKey.json");
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
-            FirebaseApp  app = null;
+            FirebaseApp app = null;
 
             if (FirebaseApp.getApps().isEmpty()) {
                 app = FirebaseApp.initializeApp(options);
-            }
-            else {
+            } else {
                 app = FirebaseApp.getApps().get(0);
             }
             logger.info("FirebaseApp inicializando...");
             return FirestoreClient.getFirestore();
 
-        }
-        catch (IOException e) {
-            logger.error("Error al cargar el archivo de credenciales de Firebase o al inicializar FirebaseApp: " + e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error("Error al cargar el archivo de credenciales de Firebase o al inicializar FirebaseApp: {}", e.getMessage(), e);
 
-            throw new RuntimeException("Error during FirebaseApp initialization: " + e.getMessage(), e);}
-        catch (Exception e) {
-            logger.error("Error inesperado durante la inicialización de FirebaseApp: " + e.getMessage(), e);
+            throw new RuntimeException("Error during FirebaseApp initialization: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Error inesperado durante la inicialización de FirebaseApp: {}", e.getMessage(), e);
             throw new RuntimeException("Unexpected error during FirebaseApp initialization: " + e.getMessage(), e);
-        }
-        finally {
-            // Asegúrate de que el stream se cierre incluso si hay una excepción
-            if (serviceAccount != null) {
-                try {
-                    serviceAccount.close();
-                } catch (IOException e) {
-                    logger.error("Error al cerrar el InputStream de la cuenta de servicio: " + e.getMessage(), e);
-                }
-            }
         }
     }
 

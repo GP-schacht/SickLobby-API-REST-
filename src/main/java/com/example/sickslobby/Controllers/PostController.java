@@ -5,21 +5,20 @@ import com.example.sickslobby.Services.SicksLobbyServicesI;
 import com.example.sickslobby.Services.use.SicksLobbyServicesUse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/post")
 public class PostController {
 
     @Autowired
     private SicksLobbyServicesI servicio;
 
-    @GetMapping(value = "/greed{name}")
-    public String greet( @PathVariable (value = "name") String name ) {
+    @GetMapping(value = "/greet")
+    public String greet() {
 
-        return "Hello " + name;
+        return "Hello world";
     }
 
     @GetMapping(value = "/List")
@@ -29,7 +28,6 @@ public class PostController {
 
     @PostMapping(value = "/add")
     public ResponseEntity add(@RequestBody PostDTO post){
-
         return new ResponseEntity(servicio.add(post), HttpStatus.OK);
     }
 
