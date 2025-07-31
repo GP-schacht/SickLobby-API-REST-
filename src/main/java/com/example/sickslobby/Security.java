@@ -2,37 +2,38 @@ package com.example.sickslobby;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 
 @Configuration
+@EnableWebSecurity
 public class Security {
-
-
-    private static final String[] PUBLIC_ENDPOINTS = {
-            "/post/greet",
-            "/auth/**",
-            "/docs/**",
-            "/add/**",
-            "/**/update",
-            "/**/delete"
-    };
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
+                        .requestMatchers(
+                                "/post/greet",
+                                "/auth/**",
+                                "/docs/**",
+                                "/post/add",
+                                "/post/*/update",
+                                "/post/*/delete"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults()); // O usa JWT si estás usando tokens
 
         return http.build();
     }
 }
+
 
 

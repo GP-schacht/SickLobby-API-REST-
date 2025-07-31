@@ -34,7 +34,7 @@ public class SicksLobbyServicesUse implements SicksLobbyServicesI {
         docData.put("identificacion", post.getIdentificacion());
         docData.put("nombre", post.getNombre());
 
-        CollectionReference posts = firebaseConfig.getFirestore().collection("pacientes");
+        CollectionReference posts = firebaseConfig.getFirestore().collection("Pacientes");
         ApiFuture<WriteResult> writeResult = posts.document().create(docData);
         try {
             if (null != writeResult.get()) {
