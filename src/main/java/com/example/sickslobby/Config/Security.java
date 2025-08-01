@@ -1,4 +1,4 @@
-package com.example.sickslobby;
+package com.example.sickslobby.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,8 @@ public class Security {
                                 "/post/greet",
                                 "/auth/**",
                                 "/docs/**",
-                                "/post/add",
+                                "/post/addPaciente",
+                                "/post/addEspecialista",
                                 "/post/*/update",
                                 "/post/*/delete"
                         ).permitAll()

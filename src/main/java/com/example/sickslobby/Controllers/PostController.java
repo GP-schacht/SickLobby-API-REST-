@@ -1,8 +1,9 @@
 package com.example.sickslobby.Controllers;
 
-import com.example.sickslobby.PostDTO;
-import com.example.sickslobby.Services.SicksLobbyServicesI;
-import com.example.sickslobby.Services.use.SicksLobbyServicesUse;
+import com.example.sickslobby.Dto.EspecialistaDTO;
+import com.example.sickslobby.Dto.PacienteDTO;
+import com.example.sickslobby.Services.EspecialistaServicesI;
+import com.example.sickslobby.Services.PacientesServicesI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/post")
 public class PostController {
 
+
+
     @Autowired
-    private SicksLobbyServicesI servicio;
+    private PacientesServicesI servicio;
+
+    @Autowired
+    private EspecialistaServicesI servicioEspecialista;
+
+
 
     @GetMapping(value = "/greet")
     public String greet() {
@@ -26,13 +34,23 @@ public class PostController {
     return new ResponseEntity(null, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity add(@RequestBody PostDTO post){
+// add
+
+    //pacientes
+    @PostMapping(value = "/addPaciente")
+    public ResponseEntity add(@RequestBody PacienteDTO post){
+        System.out.println(post);
         return new ResponseEntity(servicio.add(post), HttpStatus.OK);
+}
+
+    //Especialistas
+    @PostMapping(value = "/addEspecialista")
+    public ResponseEntity add(@RequestBody EspecialistaDTO post){
+        return new ResponseEntity(servicioEspecialista.add(post), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}/update")
-    public ResponseEntity update(@RequestBody PostDTO post, @PathVariable (value = "id") String id) {
+    public ResponseEntity update(@RequestBody PacienteDTO post, @PathVariable (value = "id") String id) {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
