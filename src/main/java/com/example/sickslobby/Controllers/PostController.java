@@ -16,7 +16,7 @@ public class PostController {
 
 
     @Autowired
-    private PacientesServicesI servicio;
+    private PacientesServicesI servicioPaciente;
 
     @Autowired
     private EspecialistaServicesI servicioEspecialista;
@@ -30,8 +30,8 @@ public class PostController {
     }
 
     @GetMapping(value = "/List")
-    public ResponseEntity list() {
-    return new ResponseEntity(null, HttpStatus.OK);
+    public ResponseEntity listPacientes() {
+        return new ResponseEntity(servicioPaciente.list(), HttpStatus.OK);
     }
 
 // add
@@ -40,10 +40,16 @@ public class PostController {
     @PostMapping(value = "/addPaciente")
     public ResponseEntity add(@RequestBody PacienteDTO post){
         System.out.println(post);
-        return new ResponseEntity(servicio.add(post), HttpStatus.OK);
+        return new ResponseEntity(servicioPaciente.add(post), HttpStatus.OK);
 }
 
     //Especialistas
+
+    @GetMapping(value = "/ListEspecialista")
+    public ResponseEntity listEspecialistas(){
+        return new ResponseEntity(servicioEspecialista.list(), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/addEspecialista")
     public ResponseEntity add(@RequestBody EspecialistaDTO post){
         return new ResponseEntity(servicioEspecialista.add(post), HttpStatus.OK);

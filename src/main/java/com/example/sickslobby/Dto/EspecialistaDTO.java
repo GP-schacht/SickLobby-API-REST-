@@ -7,12 +7,14 @@ import lombok.Data;
 public class EspecialistaDTO {
 
     private String id;
-    @JsonProperty
-    private String Apellido;
-    @JsonProperty
-    private int Edad;
-    @JsonProperty
-    private String Especialidad;
-    @JsonProperty
-    private String Nombre;
+
+    private String apellido;
+
+    private int edad;
+
+    private String especialidad;
+
+    private String nombre;
+
+
 }

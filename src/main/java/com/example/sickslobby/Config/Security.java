@@ -25,7 +25,11 @@ public class Security {
                                 "/post/addPaciente",
                                 "/post/addEspecialista",
                                 "/post/*/update",
-                                "/post/*/delete"
+                                "/post/ListEspecialista",
+                                "/post/ListPaciente",
+                                "/post/*/delete",
+                                //Citas
+                                "/citas/addCita"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

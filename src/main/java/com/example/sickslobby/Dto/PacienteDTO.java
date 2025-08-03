@@ -1,25 +1,51 @@
 package com.example.sickslobby.Dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class PacienteDTO {
 
-    @JsonProperty
+
     private String id;
-    @JsonProperty
-    private String Apellido;
-    @JsonProperty
-    private int Edad;
-    @JsonProperty
-    private String EstadoCivil;
-    @JsonProperty
-    private String  Nombre;
-    @JsonProperty
-    private String  Sexo;
-    @JsonProperty
-    private  String Telefono;
-    @JsonProperty
-    private String  Ocupacion;
+
+    private String apellido;
+
+    private int edad;
+
+    private String estadoCivil;
+
+    private String nombre;
+
+    private String Sexo;
+
+    private String grupoEdad;
+
+    private String telefono;
+
+    private String ocupacion;
+
+    public String getGrupoEdad() {
+        return obtenerGrupoEdad();
+    }
+
+    private String obtenerGrupoEdad() {
+        if (edad >= 0 && edad <= 1) {
+            return "Neo nato";
+        } else if (edad >= 2 && edad <= 17) {
+            return "Niño";
+        } else if (edad >= 18 && edad <= 59) {
+            return "Adulto";
+        } else if (edad >= 60 && edad <= 119) {
+            return "Anciano";
+        } else if (edad > 120) {
+            throw new IllegalArgumentException("Nadie es tan viejo");
+        } else {
+            return null;
+        }
+
+    }
+
+
 }
+
+

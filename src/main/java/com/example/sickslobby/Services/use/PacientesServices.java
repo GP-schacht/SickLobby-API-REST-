@@ -28,13 +28,14 @@ public class PacientesServices implements PacientesServicesI {
     @Override
     public Boolean add(PacienteDTO post) {
         Map<String, Object> docData = new HashMap<>();
-        docData.put("Apellido", post.getApellido());
-        docData.put("Edad", post.getEdad());
-        docData.put("EstadoCivil", post.getEstadoCivil());
-        docData.put("Nombre", post.getNombre());
-        docData.put("Sexo", post.getSexo());
-        docData.put("Telefono", post.getTelefono());
-        docData.put("Ocupacion", post.getOcupacion());
+        docData.put("apellido", post.getApellido());
+        docData.put("edad", post.getEdad());
+        docData.put("estadoCivil", post.getEstadoCivil());
+        docData.put("nombre", post.getNombre());
+        docData.put("sexo", post.getSexo());
+        docData.put("grupoEdad", post.getGrupoEdad());
+        docData.put("telefono", post.getTelefono());
+        docData.put("ocupacion", post.getOcupacion());
 
 
         CollectionReference posts = firebaseConfig.getFirestore().collection("Pacientes");
