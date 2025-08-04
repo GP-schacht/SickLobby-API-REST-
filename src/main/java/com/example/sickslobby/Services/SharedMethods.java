@@ -1,6 +1,7 @@
 package com.example.sickslobby.Services;
 
 import com.example.sickslobby.Config.FirebaseConfig;
+import com.google.cloud.firestore.CollectionGroup;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,14 @@ public class SharedMethods {
 
         }
         return firebaseConfig.getFirestore().collection(collectionName);
+    }
+
+    public CollectionGroup getCollectionGroup(@NotNull String collectionName) {
+        if (collectionName == null || collectionName.isEmpty()) {
+            throw new IllegalArgumentException("Nombre del collection no puede ser nulo");
+
+        }
+        return firebaseConfig.getFirestore().collectionGroup(collectionName);
     }
 
     public void idExiste(@NotNull String collectionName, @NotNull DocumentSnapshot documentSnapshot) {

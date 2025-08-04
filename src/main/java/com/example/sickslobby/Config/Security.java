@@ -22,14 +22,18 @@ public class Security {
                                 "/post/greet",
                                 "/auth/**",
                                 "/docs/**",
-                                "/post/addPaciente",
-                                "/post/addEspecialista",
-                                "/post/*/update",
-                                "/post/ListEspecialista",
-                                "/post/ListPaciente",
                                 "/post/*/delete",
+                                "/post/*/update",
+                               //paciente
+                                "/post/ListPaciente",
+                                "/post/addPaciente",
+                                //esoecialista
+                                "/post/addEspecialista",
+                                "/post/ListEspecialista",
                                 //Citas
-                                "/citas/addCita"
+                                "/citas/addCita",
+                                "/citas/list",
+                                "/citas/id"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
