@@ -10,7 +10,7 @@ public class PacienteDTO {
 
     private String apellido;
 
-    private int edad;
+    private Integer edad;
 
     private String estadoCivil;
 
@@ -29,6 +29,10 @@ public class PacienteDTO {
     }
 
     private String obtenerGrupoEdad() {
+        if (edad == null) {
+            return null; // o puedes retornar "Desconocido"
+        }
+
         if (edad >= 0 && edad <= 1) {
             return "Neo nato";
         } else if (edad >= 2 && edad <= 17) {
@@ -42,10 +46,7 @@ public class PacienteDTO {
         } else {
             return null;
         }
-
     }
 
 
 }
-
-

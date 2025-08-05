@@ -1,30 +1,22 @@
 package com.example.sickslobby.Services.use;
-
-import com.example.sickslobby.Config.FirebaseConfig;
 import com.example.sickslobby.Dto.EspecialistaDTO;
-import com.example.sickslobby.Dto.PacienteDTO;
-import com.example.sickslobby.Services.EspecialistaServicesI;
-import com.example.sickslobby.Services.PacientesServicesI;
+import com.example.sickslobby.Services.ServicesInterface;
 import com.example.sickslobby.Services.SharedMethods;
 import com.google.api.core.ApiFuture;
-import com.google.api.core.ApiFutures;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 @Service
-public class EspecialistasServices implements EspecialistaServicesI {
+public class EspecialistasServices implements ServicesInterface<EspecialistaDTO> {
 
 private final SharedMethods sharedMethods;
 

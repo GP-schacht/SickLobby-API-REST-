@@ -2,8 +2,7 @@ package com.example.sickslobby.Controllers;
 
 import com.example.sickslobby.Dto.EspecialistaDTO;
 import com.example.sickslobby.Dto.PacienteDTO;
-import com.example.sickslobby.Services.EspecialistaServicesI;
-import com.example.sickslobby.Services.PacientesServicesI;
+import com.example.sickslobby.Services.ServicesInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +15,17 @@ public class PostController {
 
 
     @Autowired
-    private PacientesServicesI servicioPaciente;
-
+    private ServicesInterface<PacienteDTO> servicioPaciente ;
     @Autowired
-    private EspecialistaServicesI servicioEspecialista;
+    private ServicesInterface<EspecialistaDTO> servicioEspecialista  ;
 
 
 
-    @GetMapping(value = "/greet")
-    public String greet() {
 
-        return "Hello world";
-    }
-
-    @GetMapping(value = "/List")
+    @GetMapping(value = "/ListPaciente")
     public ResponseEntity listPacientes() {
         return new ResponseEntity(servicioPaciente.list(), HttpStatus.OK);
     }
-
-// add
 
     //pacientes
     @PostMapping(value = "/addPaciente")
@@ -42,6 +33,24 @@ public class PostController {
         System.out.println(post);
         return new ResponseEntity(servicioPaciente.add(post), HttpStatus.OK);
 }
+
+    @PutMapping(value = "/editPaciente")
+    public ResponseEntity edit(@RequestBody PacienteDTO post,
+                               @RequestParam String id) {
+
+        try {
+            return new ResponseEntity<>(servicioPaciente.edit(id, post), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @DeleteMapping(value = "/deletePaciente")
+    public ResponseEntity deletePaciente(@RequestParam  String id) {
+        return new ResponseEntity(null, HttpStatus.OK);
+    }
 
     //Especialistas
 
@@ -55,13 +64,21 @@ public class PostController {
         return new ResponseEntity(servicioEspecialista.add(post), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{id}/update")
-    public ResponseEntity update(@RequestBody PacienteDTO post, @PathVariable (value = "id") String id) {
-        return new ResponseEntity(null, HttpStatus.OK);
+
+
+    @PutMapping(value = "/editEspecialista")
+    public ResponseEntity editEspecialista(@RequestBody EspecialistaDTO post,
+                               @RequestParam  String id) {
+        try {
+            return new ResponseEntity<>(servicioEspecialista.edit(id, post), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping(value = "/{id}/delete")
-    public ResponseEntity delete(@PathVariable (value = "id") String id) {
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity deleteEspecialista(@RequestParam  String id) {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 }

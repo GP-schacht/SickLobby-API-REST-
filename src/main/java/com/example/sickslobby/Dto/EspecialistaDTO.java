@@ -10,7 +10,7 @@ public class EspecialistaDTO {
 
     private String apellido;
 
-    private int edad;
+    private Integer edad;
 
     private String especialidad;
 

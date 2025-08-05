@@ -38,7 +38,7 @@ public class CitasServices implements CitasServicesI {
             DocumentSnapshot snapshot = citaRef.get().get();
 
             // Validar que el documento exista
-            shared.idExiste("Citas", snapshot);
+            shared.idExiste("Citas", citaRef);
 
             // Convertir el documento a CitasDTO
             CitasDTO cita = snapshot.toObject(CitasDTO.class);
@@ -92,15 +92,16 @@ public class CitasServices implements CitasServicesI {
         DocumentReference pacienteRef = shared.getCollection("Pacientes").document(pacienteId);
 
         try {
-            DocumentSnapshot pacienteSnap = pacienteRef.get().get();
-            shared.idExiste("Pacientes", pacienteSnap);
-
-            DocumentSnapshot especialistaSnap = especialistaRef.get().get();
-            shared.idExiste("Especialistas", especialistaSnap);
+            //Existe doc paciente?
+            shared.idExiste("Pacientes", pacienteRef);
+            //Existe doc especialista?
+            shared.idExiste("Especialistas", especialistaRef);
 
             Map<String, Object> citaData = new HashMap<>();
             citaData.put("fechaCita", cita.getFechaCita());
             citaData.put("estado", cita.getEstado());
+            //hacer spap a la instancia especifica en una referencia
+            DocumentSnapshot pacienteSnap = pacienteRef.get().get();
             citaData.put("nombrePaciente", pacienteSnap.getString("nombre"));
             citaData.put("pacienteId", pacienteId);
 

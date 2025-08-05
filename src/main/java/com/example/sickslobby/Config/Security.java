@@ -22,14 +22,18 @@ public class Security {
                                 "/post/greet",
                                 "/auth/**",
                                 "/docs/**",
-                                "/post/*/delete",
-                                "/post/*/update",
+                                "/post/delete",
+                                "/post/update",
                                //paciente
                                 "/post/ListPaciente",
                                 "/post/addPaciente",
-                                //esoecialista
+                                "/post/editPaciente",
+                                "/post/deletePaciente",
+                                //especialista
                                 "/post/addEspecialista",
                                 "/post/ListEspecialista",
+                                "/post/editEspecialista",
+                                "/post/deleteEspecialista",
                                 //Citas
                                 "/citas/addCita",
                                 "/citas/list",
