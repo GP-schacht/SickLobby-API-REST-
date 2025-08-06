@@ -9,6 +9,7 @@ import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class PacientesServices implements ServicesInterface<PacienteDTO> {
 
     private final SharedMethods sharedMethods;
 
+    private PacienteDTO pacienteDTO;
 
 
     public PacientesServices(SharedMethods sharedMethods) {
@@ -27,6 +29,21 @@ public class PacientesServices implements ServicesInterface<PacienteDTO> {
 
     @Override
     public List<PacienteDTO> list() {
+        List<PacienteDTO> pacientes= new ArrayList<>();
+ApiFuture<QuerySnapshot> future = sharedMethods.getCollection("Pacientes").get();
+
+try{
+    for(DocumentSnapshot doc :   future.get().getDocuments()){
+        pacienteDTO = doc.toObject(PacienteDTO.class);
+        assert pacienteDTO != null;
+        pacienteDTO.setId(doc.getId());
+        pacientes.add(pacienteDTO);
+    }
+    return pacientes;
+}
+catch (Exception e){
+    e.printStackTrace();
+}
         return List.of();
     }
 
@@ -92,9 +109,16 @@ public class PacientesServices implements ServicesInterface<PacienteDTO> {
 
     @Override
     public Boolean remove(String id) {
-
-        DocumentReference posts = sharedMethods.getCollection("Pacientes").document(id);
-        ApiFuture<WriteResult> writeResult = posts.delete();
-        return null;
+        DocumentReference esprRef = sharedMethods.getCollection("Pacientes").document(id);
+        sharedMethods.idExiste("Pacientes", esprRef);
+        ApiFuture<WriteResult> writeResult = esprRef.delete();
+        try {
+            if (null != writeResult) {
+                return Boolean.TRUE;
+            }
+            return Boolean.FALSE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
     }
 }

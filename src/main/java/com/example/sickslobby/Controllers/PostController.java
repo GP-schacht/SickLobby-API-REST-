@@ -49,7 +49,7 @@ public class PostController {
 
     @DeleteMapping(value = "/deletePaciente")
     public ResponseEntity deletePaciente(@RequestParam  String id) {
-        return new ResponseEntity(null, HttpStatus.OK);
+        return new ResponseEntity(servicioPaciente.remove(id), HttpStatus.OK);
     }
 
     //Especialistas
@@ -64,8 +64,6 @@ public class PostController {
         return new ResponseEntity(servicioEspecialista.add(post), HttpStatus.OK);
     }
 
-
-
     @PutMapping(value = "/editEspecialista")
     public ResponseEntity editEspecialista(@RequestBody EspecialistaDTO post,
                                @RequestParam  String id) {
@@ -77,8 +75,8 @@ public class PostController {
         }
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/deleteEspecialista")
     public ResponseEntity deleteEspecialista(@RequestParam  String id) {
-        return new ResponseEntity(null, HttpStatus.OK);
+        return new ResponseEntity(servicioEspecialista.remove(id), HttpStatus.OK);
     }
 }
