@@ -3,6 +3,7 @@ package com.example.sickslobby.Controllers;
 import com.example.sickslobby.Dto.EspecialistaDTO;
 import com.example.sickslobby.Dto.PacienteDTO;
 import com.example.sickslobby.Services.ServicesInterface;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,13 @@ public class PostController {
 
     //pacientes
     @PostMapping(value = "/addPaciente")
-    public ResponseEntity add(@RequestBody PacienteDTO post){
+    public ResponseEntity add(@RequestBody @Valid PacienteDTO post){
         System.out.println(post);
         return new ResponseEntity(servicioPaciente.add(post), HttpStatus.OK);
 }
 
     @PutMapping(value = "/editPaciente")
-    public ResponseEntity edit(@RequestBody PacienteDTO post,
+    public ResponseEntity edit(@RequestBody @Valid PacienteDTO post,
                                @RequestParam String id) {
 
         try {
@@ -60,12 +61,12 @@ public class PostController {
     }
 
     @PostMapping(value = "/addEspecialista")
-    public ResponseEntity add(@RequestBody EspecialistaDTO post){
+    public ResponseEntity add(@RequestBody @Valid EspecialistaDTO post){
         return new ResponseEntity(servicioEspecialista.add(post), HttpStatus.OK);
     }
 
     @PutMapping(value = "/editEspecialista")
-    public ResponseEntity editEspecialista(@RequestBody EspecialistaDTO post,
+    public ResponseEntity editEspecialista(@RequestBody @Valid EspecialistaDTO post,
                                @RequestParam  String id) {
         try {
             return new ResponseEntity<>(servicioEspecialista.edit(id, post), HttpStatus.OK);

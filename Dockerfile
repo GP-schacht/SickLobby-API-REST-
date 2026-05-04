@@ -1,3 +1,4 @@
 FROM openjdk:17
-COPY build/libs/gestion-pacientes-*.jar app.jar
+COPY build/libs/*.jar app.jar
+ENV FIREBASE_CREDENTIALS_JSON=
 ENTRYPOINT ["java", "-jar", "/app.jar"]

@@ -8,37 +8,52 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.cloud.FirestoreClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
 
-    // Añade un logger para ver mensajes detallados
     private static final Logger logger = LoggerFactory.getLogger(FirebaseConfig.class);
 
+    @Value("${firebase.credentials.path:src/main/resources/firebase/serviceAccountKey.json}")
+    private String credentialsPath;
+
+    @Value("${firebase.credentials.json:}")
+    private String credentialsJson;
+
     @Bean
-    public Firestore firebaseAppInitializer() { // Removí 'throws IOException' para manejarla aquí
+    public Firestore firebaseAppInitializer() {
 
         try {
+            InputStream serviceAccount;
 
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase/serviceAccountKey.json");
+            if (!credentialsJson.isEmpty()) {
+                serviceAccount = new ByteArrayInputStream(credentialsJson.getBytes());
+                logger.info("Cargando credenciales de Firebase desde variable de entorno...");
+            } else {
+                serviceAccount = new FileInputStream(credentialsPath);
+                logger.info("Cargando credenciales de Firebase desde archivo: {}", credentialsPath);
+            }
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
-            FirebaseApp app = null;
+            FirebaseApp app;
 
             if (FirebaseApp.getApps().isEmpty()) {
                 app = FirebaseApp.initializeApp(options);
             } else {
                 app = FirebaseApp.getApps().get(0);
             }
-            logger.info("FirebaseApp inicializando...");
+            logger.info("FirebaseApp inicializado correctamente.");
             return FirestoreClient.getFirestore();
 
         } catch (IOException e) {

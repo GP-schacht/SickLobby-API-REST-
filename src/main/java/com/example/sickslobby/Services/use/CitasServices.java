@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import com.google.cloud.firestore.SetOptions;
 
 @Service
 public class CitasServices implements CitasServicesI {
@@ -118,12 +119,46 @@ public class CitasServices implements CitasServicesI {
 
     @Override
     public Boolean edit(String id, CitasDTO post) {
-        return null;
+        try {
+            DocumentReference citaRef = shared.getCollection("Especialistas")
+                    .document(post.getEspecialistaId())
+                    .collection("Citas")
+                    .document(id);
+
+            shared.idExiste("Citas", citaRef);
+
+            Map<String, Object> citaData = new HashMap<>();
+            if (post.getFechaCita() != null) citaData.put("fechaCita", post.getFechaCita());
+            if (post.getEstado() != null) citaData.put("estado", post.getEstado());
+
+            ApiFuture<WriteResult> writeResult = citaRef.set(citaData, SetOptions.merge());
+            return writeResult.get() != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
     }
 
     @Override
     public Boolean remove(String id) {
-        return null;
+        return remove(id, null);
+    }
+
+    public Boolean remove(String id, String especialistaId) {
+        try {
+            DocumentReference citaRef = shared.getCollection("Especialistas")
+                    .document(especialistaId)
+                    .collection("Citas")
+                    .document(id);
+
+            shared.idExiste("Citas", citaRef);
+
+            ApiFuture<WriteResult> writeResult = citaRef.delete();
+            return writeResult.get() != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
     }
 
 
